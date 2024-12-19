@@ -94,13 +94,13 @@ const LogInModal = () => {
                 outline
                 label="Sign up with Google"
                 icon={FcGoogle}
-                onClick={() => {}}
+                onClick={() => signIn('google')}
             />
             <Button 
                 outline
                 label="Sign up with GitHub"
                 icon={AiFillGithub}
-                onClick={() => {}}
+                onClick={() => signIn('github')}
             />
             <div
                 className="

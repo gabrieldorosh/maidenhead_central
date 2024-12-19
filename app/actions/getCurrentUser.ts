@@ -28,7 +28,12 @@ export default async function getCurrentUser() {
             return null; // Return null if user doesn't exist
         }
 
-        return currentUser;
+        return {
+            ...currentUser, // Return user data like this to avoid hydration errors
+            createdAt: currentUser.createdAt.toISOString(),
+            updatedAt: currentUser.updatedAt.toISOString(),
+            emailVerified: currentUser.emailVerified?.toISOString() || null,
+        }
     } catch (error: any) {
         return null;
     }
