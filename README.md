@@ -1,3 +1,3 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-It is a property rental app based on Airbnb.
+It is a current WIP
