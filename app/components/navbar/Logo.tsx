@@ -8,6 +8,7 @@ const Logo = () => {
 
     return (
         <Image 
+            onClick={() => router.push('/')} // Clears search params
             alt="Maidenhead Central Logo"
             className="hidden md:block cursor-pointer"
             height="100"
