@@ -6,4 +6,27 @@ html,
 body,
 :root {
     height: 100%;
+    
+         
+    ::-webkit-scrollbar {
+        width: 14px;
+        background-color: white;      
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background-color: #ccc;       
+        border-radius: 9999px;          
+        border: 3px solid white;      
+    }
+    
+    ::-webkit-scrollbar-button {
+        display: none;                  
+    }
+}
+
+.leaflet-bottom,
+.leaflet-control,
+.leaflet-pane,
+.leaflet-top {
+    z-index: 0 !important;
 }

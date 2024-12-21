@@ -23,8 +23,10 @@ import { useRouter } from 'next/navigation';
 
 const LogInModal = () => {
     const router = useRouter();
+
     const registerModal = useRegisterModal();
     const logInModal = useLogInModal();
+
     const [isLoading, setIsLoading] = useState(false);
 
     const {
@@ -60,6 +62,11 @@ const LogInModal = () => {
         })
     };
 
+    const toggle = useCallback(() => {
+        logInModal.onClose();
+        registerModal.onOpen();
+    }, [logInModal, registerModal]);
+
     const bodyContent = (
         <div className="flex flex-col gap-4">
             <Heading 
@@ -89,16 +96,17 @@ const LogInModal = () => {
 
     const footerContent = (
         <div className="flex flex-col gap-4 mt-3">
+            {/* Social Logins */} 
             <hr />
             <Button 
                 outline
-                label="Sign up with Google"
+                label="Continue with Google"
                 icon={FcGoogle}
                 onClick={() => signIn('google')}
             />
             <Button 
                 outline
-                label="Sign up with GitHub"
+                label="Continue with GitHub"
                 icon={AiFillGithub}
                 onClick={() => signIn('github')}
             />
@@ -120,17 +128,17 @@ const LogInModal = () => {
                     "
                 >
                     <div>
-                        Already have an account?
+                        First time using Central?
                     </div>
                     <div 
-                        onClick={registerModal.onClose}
+                        onClick={toggle}
                         className="
                             text-neutral-800 
                             cursor-pointer 
                             hover:underline
                         "
                     >
-                        Log In
+                        Create an account
                     </div>
                 </div>
             </div>
