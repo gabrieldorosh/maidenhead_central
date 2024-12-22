@@ -12,10 +12,12 @@ import { renderToString } from 'react-dom/server';
 
 interface MapProps {
     center?: number[];
+    zoomed?: boolean;
 }
 
 const Map: React.FC<MapProps> = ({ 
-    center // No default so that zoom is not set if center is not provided
+    center, // No default so that zoom is not set if center is not provided
+    zoomed = false,
 }) => {
     // Create a custom DivIcon using the FaMapMarker icon
     const customIcon = L.divIcon({
@@ -28,7 +30,7 @@ const Map: React.FC<MapProps> = ({
     return (
         <MapContainer
             center={center as L.LatLngExpression || [51.523, -0.724]}
-            zoom={center ? 4 : 2}
+            zoom={zoomed ? 15 : center ? 4 : 2}
             scrollWheelZoom={false}
             className='h-[35vh] rounded-lg'
         >

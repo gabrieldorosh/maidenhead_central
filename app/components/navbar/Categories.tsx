@@ -81,47 +81,46 @@ export const categories = [
         icon: TbBath,
         description: 'Private bathroom convenience.'
     },
-    // Commented out as they don't fit and I don't have a scroll bar
-    // {
-    //     label: 'Extended Stay',
-    //     icon: TbCalendarPlus,
-    //     description: 'Perfect for longer visits.'
-    // },
-    // {
-    //     label: 'Private Driveway',
-    //     icon: TbCar,
-    //     description: 'Your own secure driveway.'
-    // },
-    // {
-    //     label: 'Laundry',
-    //     icon: TbShirt,
-    //     description: 'In-house laundry facilities.'
-    // },
-    // {
-    //     label: 'Ramped',
-    //     icon: TbDisabled,
-    //     description: 'Smooth entry for all abilities.'
-    // },
-    // {
-    //     label: 'Ground Beds',
-    //     icon: TbBed,
-    //     description: 'Convenient access.'
-    // },
-    // {
-    //     label: 'London Links',
-    //     icon: MdOutlineTrain,
-    //     description: 'Direct train to the city.'
-    // },
-    // {
-    //     label: 'CCTV',
-    //     icon: LuCctv,
-    //     description: 'Security cameras for peace of mind.'
-    // },
-    // {
-    //     label: 'Outskirts',
-    //     icon: TbMap2,
-    //     description: 'Escape the hustle and bustle.'
-    // },
+    {
+        label: 'Extended Stay',
+        icon: TbCalendarPlus,
+        description: 'Perfect for longer visits.'
+    },
+    {
+        label: 'Private Driveway',
+        icon: TbCar,
+        description: 'Your own secure driveway.'
+    },
+    {
+        label: 'Laundry',
+        icon: TbShirt,
+        description: 'In-house laundry facilities.'
+    },
+    {
+        label: 'Ramped',
+        icon: TbDisabled,
+        description: 'Smooth entry for all abilities.'
+    },
+    {
+        label: 'Ground Beds',
+        icon: TbBed,
+        description: 'Convenient access.'
+    },
+    {
+        label: 'London Links',
+        icon: MdOutlineTrain,
+        description: 'Direct train to the city.'
+    },
+    {
+        label: 'CCTV',
+        icon: LuCctv,
+        description: 'Security cameras for peace of mind.'
+    },
+    {
+        label: 'Outskirts',
+        icon: TbMap2,
+        description: 'Escape the hustle and bustle.'
+    },
 ]
 
 const Categories = () => {
