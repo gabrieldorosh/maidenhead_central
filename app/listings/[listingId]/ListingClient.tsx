@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Reservation } from "@prisma/client";
 
 import { SafeListing, SafeReservation, SafeUser } from "@/app/types";
 import { categories } from "@/app/components/navbar/Categories";
@@ -12,7 +11,6 @@ import useLogInModal from "@/app/hooks/useLogInModal";
 import { useRouter } from "next/navigation";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import axios from "axios";
-import { start } from "repl";
 import toast from "react-hot-toast";
 import ListingReservation from "@/app/components/listings/ListingReservation";
 import { Range } from "react-date-range";

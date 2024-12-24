@@ -1,14 +1,11 @@
 'use client';
 
-import { FaMapMarkerAlt, FaWalking, FaMap, FaLevelDownAlt, FaBath, FaWheelchair, FaAccessibleIcon, FaTree, FaTshirt, FaArrowsAlt, FaTrain, FaVideo, FaUsers, FaChild, FaUniversalAccess, FaCar, FaCalendarAlt, FaLandmark } from "react-icons/fa";
-
 import Container from "../Container";
 import { MdOutlineTrain, MdOutlineVilla } from "react-icons/md";
 import CategoryBox from "../CategoryBox";
 import { usePathname, useSearchParams } from "next/navigation";
-import { TbAccessible, TbAirBalloon, TbBabyCarriage, TbBath, TbBed, TbCalendarPlus, TbCar, TbDiamond, TbDisabled, TbMap2, TbMapPin, TbMountain, TbPool, TbRosetteDiscount, TbShirt, TbTag, TbUsers, TbUsersGroup, TbWalk } from "react-icons/tb";
-import { LuCctv, LuExpand, LuTreeDeciduous, LuTreePine } from "react-icons/lu";
-import { LiaTrainSolid } from "react-icons/lia";
+import { TbAccessible, TbAirBalloon, TbBabyCarriage, TbBath, TbBed, TbCalendarPlus, TbCar, TbDiamond, TbDisabled, TbMap2, TbMapPin, TbMountain, TbPool, TbShirt, TbTag, TbUsersGroup, TbWalk } from "react-icons/tb";
+import { LuCctv, LuExpand, LuTreeDeciduous } from "react-icons/lu";
 
 export const categories = [
     {
