@@ -8,7 +8,7 @@ export default async function getListingById(
     params: IParams
 ) {
     try {
-        const { listingId } = params;
+        const { listingId } = await params;
 
         // Don't need to check anything as this is not an API route
         // listingId can be used directly.

@@ -17,7 +17,7 @@ export async function POST(
         return NextResponse.error();
     }
 
-    const { listingId }= params;
+    const { listingId } = await params;
 
     if (!listingId || typeof listingId != 'string') {
         throw new Error('Invalid listingId');
