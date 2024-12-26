@@ -3,13 +3,9 @@ import { NextResponse } from "next/server";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import prisma from "@/app/libs/prismadb";
 
-interface IParams {
-    listingId?: string;
-}
-
 export async function POST(
     request: Request,
-    { params }: { params: IParams }
+    { params }: { params: { listingId: string } } // Ensure listingId is a string
 ) {
     const currentUser = await getCurrentUser();
 
@@ -17,7 +13,7 @@ export async function POST(
         return NextResponse.error();
     }
 
-    const { listingId } = await params;
+    const { listingId } = params;
 
     if (!listingId || typeof listingId !== 'string') {
         throw new Error('Invalid listingId');
@@ -25,16 +21,11 @@ export async function POST(
 
     // const instead of let because the value isn't being reassigned, only mutated
     const favouriteIds = [...(currentUser.favouriteIds || [])];
-
     favouriteIds.push(listingId);
 
     const user = await prisma.user.update({
-        where: {
-            id: currentUser.id
-        },
-        data: {
-            favouriteIds
-        }
+        where: { id: currentUser.id },
+        data: { favouriteIds },
     });
     
     return NextResponse.json(user);
@@ -42,7 +33,7 @@ export async function POST(
 
 export async function DELETE(
     request: Request,
-    { params }: { params: IParams }
+    { params }: { params: { listingId: string } } 
 ) {
     const currentUser = await getCurrentUser();
 
@@ -57,16 +48,11 @@ export async function DELETE(
     }
 
     let favouriteIds = [...(currentUser.favouriteIds || [])];
-    
     favouriteIds = favouriteIds.filter((id) => id !== listingId);
 
     const user = await prisma.user.update({
-        where: {
-            id: currentUser.id
-        },
-        data: {
-            favouriteIds
-        }
+        where: { id: currentUser.id },
+        data: { favouriteIds },
     })
 
     return NextResponse.json(user);
