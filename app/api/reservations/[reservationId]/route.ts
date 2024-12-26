@@ -19,7 +19,7 @@ export async function DELETE(
 
     const { reservationId } = params;
 
-    if (!reservationId || typeof reservationId != "string") {
+    if (!reservationId || typeof reservationId !== "string") {
         throw new Error("Invalid reservation ID");
     }
 

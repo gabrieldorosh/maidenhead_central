@@ -19,7 +19,7 @@ export async function POST(
 
     const { listingId } = await params;
 
-    if (!listingId || typeof listingId != 'string') {
+    if (!listingId || typeof listingId !== 'string') {
         throw new Error('Invalid listingId');
     }
 
@@ -51,7 +51,7 @@ export async function DELETE(
 
     const { listingId } = params;
 
-    if (!listingId || typeof listingId != 'string') {
+    if (!listingId || typeof listingId !== 'string') {
         throw new Error('Invalid listingId');
     }
 

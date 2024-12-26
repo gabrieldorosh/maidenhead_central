@@ -39,6 +39,7 @@ const RegisterModal = () => {
         axios.post('/api/auth/register', data)
             .then(() => {
                 registerModal.onClose();
+                logInModal.onOpen();
             })
             .catch((error) => {
                 toast.error("An error occurred. Please try again later.");
