@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { IconType } from "react-icons";
-import queryString from "query-string";
+import queryString, { ParsedQuery } from "query-string";
 
 interface CategoryBoxProps {
     icon: IconType;
@@ -20,15 +20,15 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
     const params = useSearchParams();
 
     const handleClick = useCallback(() => {
-        let currentQuery = {};
+        let currentQuery: ParsedQuery<string> = {};
 
-        // Check if we have params and parse them
+        // Check if we have existing query params and parse them
         if (params) {
             currentQuery = queryString.parse(params.toString());
         }
 
         // Add new category to query
-        const updatedQuery: any = {
+        const updatedQuery: ParsedQuery<string> = {
             ...currentQuery,
             category: label
         }
@@ -39,10 +39,13 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
         }
 
         // Generate and push new URL
-        const url = queryString.stringifyUrl({
-            url: '/',
-            query: updatedQuery,
-        }, { skipNull: true });
+        const url = queryString.stringifyUrl(
+            {
+                url: '/',
+                query: updatedQuery,
+            }, 
+            { skipNull: true }
+        );
 
         router.push(url);
     }, [label, params, router]);

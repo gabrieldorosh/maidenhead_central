@@ -1,4 +1,5 @@
 import prisma from '../libs/prismadb';
+import { ListingQuery } from '../types';
 
 export interface IListingParams {
   userId?: string;
@@ -24,9 +25,9 @@ export default async function getListings(
       endDate,
       locationValue,
       category
-    } = await params;
+    } = params;
 
-    let query: any = {};
+    const query: ListingQuery = {};
 
     if (userId) {
       query.userId = userId;
@@ -38,7 +39,7 @@ export default async function getListings(
 
     if (roomCount) {
       query.roomCount = {
-        gte: +roomCount
+        gte: +roomCount, // Convert to number
       };
     };
 
@@ -91,7 +92,12 @@ export default async function getListings(
     }));
 
     return safeListings;
-  } catch (error: any) {
-    throw new Error(error)
+  } catch (error: unknown) {
+    // Narrow down the type of error
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    // If the error is not an instance of Error, throw a new error
+    throw new Error('An unknown error occurred')
   }
 }

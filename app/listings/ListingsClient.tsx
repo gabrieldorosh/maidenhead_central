@@ -9,7 +9,7 @@ import Container from "../components/Container";
 import Heading from "../components/Heading";
 import ListingCard from "../components/listings/ListingCard";
 
-import { SafeListing, SafeReservation, SafeUser } from "../types";
+import { SafeListing, SafeUser } from "../types";
 
 interface ListingsClientProps {
     listings: SafeListing[];

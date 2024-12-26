@@ -42,6 +42,7 @@ const RegisterModal = () => {
                 logInModal.onOpen();
             })
             .catch((error) => {
+                console.error(error);
                 toast.error("An error occurred. Please try again later.");
             })
             .finally(() => {

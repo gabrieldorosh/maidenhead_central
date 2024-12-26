@@ -1,4 +1,5 @@
 import prisma from '@/app/libs/prismadb';
+import { ReservationQuery } from '../types';
 
 interface IParams {
     listingId?: string;
@@ -10,9 +11,9 @@ export default async function getReservations(
     params: IParams
 ) {
     try {
-        const { listingId, userId, authorId } = await params;
+        const { listingId, userId, authorId } = params;
 
-        const query: any = {};
+        const query: ReservationQuery = {};
 
         // Find all reservations for this listing
         if (listingId) {
@@ -53,7 +54,13 @@ export default async function getReservations(
         );
 
         return SafeReservations;
-    } catch (error: any) {
-        throw new Error(error);
+    } catch (error: unknown) {
+        // Safely narrow down the error type
+        if (error instanceof Error) {
+            throw new Error(error.message);
+        }
+
+        // If the error is not an instance of Error, throw a new error
+        throw new Error('Failed to get reservations');
     }
 }

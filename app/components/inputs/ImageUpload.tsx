@@ -4,9 +4,10 @@ import React, { useCallback } from "react";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import { TbPhotoPlus } from "react-icons/tb";
+import { CloudinaryUploadWidgetResults } from "next-cloudinary";
 
 declare global {
-    var cloudinary: any;
+    let cloudinary: unknown;
 }
 
 interface ImageUploadProps {
@@ -18,9 +19,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     onChange,
     value,
 }) => {
-    const handleUpload = useCallback((result: any) => {
-        const url = result.info.secure_url;
-        onChange(url);
+    const handleUpload = useCallback((result: CloudinaryUploadWidgetResults) => {
+        if (result.info && typeof result.info !== 'string' && result.info.secure_url) {
+            const url = result.info.secure_url;
+            onChange(url);
+        }
     }, [onChange]);
 
     return (

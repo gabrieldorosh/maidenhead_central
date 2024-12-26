@@ -14,6 +14,7 @@ import Heading from "../Heading";
 import useSearchModal from "@/app/hooks/useSearchModal";
 import Calendar from "../inputs/Calendar";
 import Counter from "../inputs/Counter";
+import { SearchQueryParams } from "@/app/types";
 
 enum STEPS {
     LOCATION = 0,
@@ -60,7 +61,7 @@ const SearchModal = () => {
             currentQuery = queryString.parse(params.toString());
         }
         
-        const updatedQuery: any = {
+        const updatedQuery: SearchQueryParams = {
             ...currentQuery,
             locationValue: location?.value,
             guestCount,

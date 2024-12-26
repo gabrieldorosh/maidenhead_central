@@ -18,7 +18,7 @@ export async function POST(
         listingId,
         startDate,
         endDate,
-        price,
+        // price, // Unused for now
         totalPrice,
     } = body;
 

@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from "next/navigation";
-import { Reservation } from "@prisma/client";
 
 import { SafeUser, SafeListing, SafeReservation } from "@/app/types";
 import useCountries from "@/app/hooks/useCountries";

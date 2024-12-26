@@ -23,7 +23,8 @@ export async function POST(
         throw new Error('Invalid listingId');
     }
 
-    let favouriteIds = [...(currentUser.favouriteIds || [])];
+    // const instead of let because the value isn't being reassigned, only mutated
+    const favouriteIds = [...(currentUser.favouriteIds || [])];
 
     favouriteIds.push(listingId);
 

@@ -68,7 +68,7 @@ const RentModal = () => {
         ssr: false,
     }), [location]);
 
-    const setCustomValue = (id: string, value: any) => {
+    const setCustomValue = (id: string, value: unknown) => {
         setValue(id, value, {
             shouldDirty: true,
             shouldTouch: true,
@@ -99,6 +99,7 @@ const RentModal = () => {
             setStep(STEPS.CATEGORY);
             rentModal.onClose();
         }).catch((error) => {
+            console.error(error);
             toast.error('Failed to list property');
         }).finally(() => {
             setIsLoading(false);

@@ -8,7 +8,7 @@ export default async function getListingById(
     params: IParams
 ) {
     try {
-        const { listingId } = await params;
+        const { listingId } = params;
 
         // Don't need to check anything as this is not an API route
         // listingId can be used directly.
@@ -23,7 +23,7 @@ export default async function getListingById(
         });
 
         if (!listing) {
-            throw null;
+            throw new Error('Listing not found');
         }
 
         return {
@@ -34,10 +34,15 @@ export default async function getListingById(
                 createdAt: listing.user.createdAt.toISOString(),
                 updatedAt: listing.user.updatedAt.toISOString(),
                 emailVerified: listing.user.emailVerified?.toISOString() || null,
-            }
+            },
+        };
+    } catch (error: unknown) {
+        // Narrow down the error type
+        if (error instanceof Error) {
+            throw new Error(error.message);
         }
-    } catch (error: any) {
-        throw new Error(error);
+        // Otherwise
+        throw new Error('An unknown error occurred');
     }
 }
 

@@ -25,3 +25,46 @@ export type SafeReservation = Omit<
     endDate: string;
     listing: SafeListing;
 }
+
+export type SearchQueryParams = {
+    locationValue?: string;
+    guestCount?: number;
+    roomCount?: number;
+    bathroomCount?: number;
+    startDate?: string;
+    endDate?: string;
+    [key: string]: string | number | boolean | null | undefined | (string | number | boolean | null | undefined)[];
+}
+
+export type ReservationQuery = {
+    listingId?: string;
+    userId?: string;
+    listing?: {
+        userId?: string;
+    };
+}
+
+export type RangeFilter = {
+    gte: number;
+}
+
+export type ReservationConflict = {
+    endDate?: { gte: string };
+    startDate?: { lte: string };
+}
+
+export type ListingQuery = {
+    userId?: string;
+    category?: string;
+    roomCount?: RangeFilter;
+    guestCount?: RangeFilter;
+    bathroomCount?: RangeFilter;
+    locationValue?: string;
+    NOT?: {
+        reservations: {
+            some: {
+                OR: ReservationConflict[];
+            };
+        };
+    };
+}

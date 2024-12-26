@@ -1,12 +1,10 @@
 'use client';
 
-import L, { Icon } from 'leaflet';
+import L from 'leaflet';
 import { MapContainer, Marker, TileLayer } from 'react-leaflet';
 
 // Fix for broken marker icons
 import 'leaflet/dist/leaflet.css';
-import { FaMapMarkerAlt } from 'react-icons/fa';
-import { RiMapPin2Fill } from "react-icons/ri";
 import { PiMapPinFill } from "react-icons/pi";
 import { renderToString } from 'react-dom/server';
 

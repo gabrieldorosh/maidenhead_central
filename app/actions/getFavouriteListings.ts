@@ -1,7 +1,5 @@
 import prisma from '@/app/libs/prismadb';
-
 import getCurrentUser from './getCurrentUser';
-import toast from 'react-hot-toast';
 
 export default async function getFavouriteListings() {
     try {
@@ -25,7 +23,10 @@ export default async function getFavouriteListings() {
         }));
 
         return SafeFavourites;
-    } catch (error: any) {
-        throw new Error(error);
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            throw new Error(error.message);
+        }
+        throw new Error('An unknown error occurred');
     }
 } 
