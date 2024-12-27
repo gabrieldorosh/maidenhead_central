@@ -5,7 +5,7 @@ import prisma from "@/app/libs/prismadb";
 
 export async function POST(
     request: Request,
-    context: { params: Record<string, string> }
+    context: { params: Record<string, unknown> }
 ) {
     const currentUser = await getCurrentUser();
 
@@ -13,8 +13,8 @@ export async function POST(
         return NextResponse.error();
     }
 
-    // Extract the listingId from the URL
-    const listingId = context.params.listingId;
+    // Safely extract the listing ID from the URL during runtime
+    const listingId = context.params?.listingId;
 
     if (!listingId || typeof listingId !== 'string') {
         throw new Error('Invalid listing ID');
@@ -32,7 +32,7 @@ export async function POST(
 
 export async function DELETE(
     request: Request,
-    context: { params: Record<string, string> } 
+    context: { params: Record<string, unknown> } 
 ) {
     const currentUser = await getCurrentUser();
 
@@ -40,7 +40,7 @@ export async function DELETE(
         return NextResponse.error();
     }
 
-    const listingId = context.params.listingId;
+    const listingId = context.params?.listingId;
 
     if (!listingId || typeof listingId !== 'string') {
         throw new Error('Invalid listing ID');
