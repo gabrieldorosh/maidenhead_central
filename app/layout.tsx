@@ -1,4 +1,5 @@
 import { Nunito } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react"
 
 import "./globals.css";
 
@@ -43,6 +44,7 @@ export default async function RootLayout({
         </ClientOnly>
         <div className="pb-20 pt-28">
           {children}
+          <Analytics />
         </div>
       </body>
     </html>
