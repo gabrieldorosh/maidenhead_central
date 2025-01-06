@@ -12,6 +12,8 @@ import SearchModal from "./components/modals/SearchModal";
 import ToasterProvider from "./providers/ToasterProvider";
 import getCurrentUser from "./actions/getCurrentUser";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Maidenhead Central",
   description: "Maidenhead Central Property Management",
