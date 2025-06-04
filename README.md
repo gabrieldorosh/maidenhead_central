@@ -22,14 +22,14 @@ Multiple reusable UI components were created with TailwindCSS
 2. Create `.env` file and configure the following variables:
     ```bash
     DATABASE_URL=<MongoDB connection string>
-    NEXTAUTH_SECRET=<Random string used by NextAuth>
-    NEXTAUTH_URL=<>
     GITHUB_ID=<GitHub oAuth client id>
     GITHUB_SECRET=<GitHub oAuth client secret>
     GOOGLE_ID=<Google oAuth client id>
     GOOGLE_SECRET=<Google oAuth client secret>
-    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=<>
-    NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=<>
+    NEXTAUTH_SECRET=<Random string used by NextAuth>
+    NEXTAUTH_URL=http://localhost:3000
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=<your Cloudinary cloud name>
+    NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=<Cloudinary upload preset>
     ```
 3. Run the development server:
     ```bash
