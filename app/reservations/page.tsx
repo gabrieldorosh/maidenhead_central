@@ -12,7 +12,7 @@ const ReservationsPage = async () => {
         return (
             <ClientOnly>
                 <EmptyState
-                    title="Unanauthorised"
+                    title="Unauthorised"
                     subtitle="You need to be logged in to view this page"
                 />
             </ClientOnly>
@@ -28,7 +28,7 @@ const ReservationsPage = async () => {
             <ClientOnly>
                 <EmptyState 
                     title='No reservations found'
-                    subtitle="Looks like you haven't recieved any reservations yet"
+                    subtitle="Looks like you haven't received any reservations yet"
                 />
             </ClientOnly>
         )

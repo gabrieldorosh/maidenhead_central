@@ -19,7 +19,7 @@ const Map: React.FC<MapProps> = ({
 }) => {
     // Create a custom DivIcon using the FaMapMarker icon
     const customIcon = L.divIcon({
-        html: renderToString(<PiMapPinFill color="004aad" size={40} />),
+        html: renderToString(<PiMapPinFill color="#004aad" size={40} />),
         className: '',
         iconSize: [24, 24],
         iconAnchor: [12, 24],
