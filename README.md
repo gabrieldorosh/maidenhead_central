@@ -71,18 +71,20 @@ curl "http://localhost:3000/api/calendar/cron?token=<CRON_SECRET_TOKEN>"
 #### Setting up automated scheduling:
 
 **Vercel Cron (Recommended for Vercel deployments)**
-The project includes `vercel.json` with cron configuration that runs every 6 hours:
+The project includes `vercel.json` with cron configuration that runs daily at 6 AM:
 
 ```json
 {
   "crons": [
     {
       "path": "/api/calendar/cron", 
-      "schedule": "0 */6 * * *"
+      "schedule": "0 6 * * *"
     }
   ]
 }
 ```
+
+*Note: Vercel Hobby accounts are limited to daily cron jobs. For more frequent syncing, upgrade to Pro plan or use external cron services.*
 
 Make sure to set the `CRON_SECRET_TOKEN` environment variable in your Vercel project settings.
 
