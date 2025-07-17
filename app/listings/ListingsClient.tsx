@@ -7,7 +7,7 @@ import { useCallback, useState } from "react";
 
 import Container from "../components/Container";
 import Heading from "../components/Heading";
-import ListingCard from "../components/listings/ListingCard";
+import ManageListingCard from "../components/listings/ManageListingCard";
 
 import { SafeListing, SafeUser } from "../types";
 
@@ -43,8 +43,8 @@ const ListingsClient: React.FC<ListingsClientProps> = ({
     return (
         <Container>
             <Heading 
-                title="Listings"
-                subtitle="Your current listings"
+                title="My Listings"
+                subtitle="Manage your properties and add calendar sync settings"
             />
             <div className="
                 mt-10 
@@ -58,13 +58,11 @@ const ListingsClient: React.FC<ListingsClientProps> = ({
                 gap-8
             ">
                 {listings.map((listing) => (
-                    <ListingCard 
+                    <ManageListingCard 
                         key={listing.id}
                         data={listing}
-                        actionId={listing.id}
-                        onAction={onCancel}
+                        onDelete={onCancel}
                         disabled={deletingId === listing.id}
-                        actionLabel="Delete Listing Forever"
                         currentUser={currentUser}
                     />
                 ))}

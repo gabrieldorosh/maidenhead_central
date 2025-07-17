@@ -31,22 +31,69 @@ Calendar Sync (Airbnb, Booking.com)
     NEXTAUTH_URL=http://localhost:3000
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=<your Cloudinary cloud name>
     NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=<Cloudinary upload preset>
-    AIRBNB_CALENDAR_URL=<iCal URL for your Airbnb listing>
-    AIRBNB_LISTING_ID=<ID of the listing in the databse to block dates for>
+    CRON_SECRET_TOKEN=<Secret token for cron job authentication>
     ```
 3. Run the development server:
     ```bash
     npm run dev
     ```
-    Open [http://localhost:3000](http://localhost:3000) to view the site.
+4. Open [http://localhost:3000](http://localhost:3000) to view the site.
 ### Calendar Sync
 
-The project is able to synchronise reservations from an iCalendar (ICS) feed. The sync is triggered by sending a POST request to `/api/calendar/sync` with `listingId` and `url` fields in the JSON body.
+The project is able to synchronise reservations from an iCalendar (ICS) feed per listing.
+
+#### Setup per-listing ICS URLs:
+Each listing can have its own ICS URL configured in the database. The `icsUrl` field in the `Listing` model stores the calendar URL.
+
+#### Manual sync:
+Send a POST request to `/api/calendar/sync` with `listingId` and `url` fields:
 
 ```bash
 curl -X POST http://localhost:3000/api/calendar/sync \
     -H 'Content-Type: application/json' \
     -d '{"listingId":"<LISTING_ID>","icsUrl":"https://example.com/calendar.ics"}'
+```
+
+#### Automated sync:
+Sync all listings with configured ICS URLs:
+
+```bash
+curl -X POST http://localhost:3000/api/calendar/sync-all
+```
+
+#### Cron job setup:
+For automated scheduling, use the cron endpoint with authentication:
+
+```bash
+curl "http://localhost:3000/api/calendar/cron?token=<CRON_SECRET_TOKEN>"
+```
+
+#### Setting up automated scheduling:
+
+**Vercel Cron (Recommended for Vercel deployments)**
+The project includes `vercel.json` with cron configuration that runs every 6 hours:
+
+```json
+{
+  "crons": [
+    {
+      "path": "/api/calendar/cron", 
+      "schedule": "0 */6 * * *"
+    }
+  ]
+}
+```
+
+Make sure to set the `CRON_SECRET_TOKEN` environment variable in your Vercel project settings.
+
+**Alternative option:**
+
+*External cron service*
+Use services like cron-job.org or EasyCron:
+
+```bash
+# Add to crontab for every 6 hours
+0 */6 * * * curl -f "https://yourdomain.com/api/calendar/cron?token=YOUR_SECRET_TOKEN"
 ```
 
 Each event in the feed will be upserted as a reservation for the selected listing.
