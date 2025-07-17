@@ -35,4 +35,4 @@ Multiple reusable UI components were created with TailwindCSS
     ```bash
     npm run dev
     ```
-    Open [http://localhost:3000](http://localhost:3000) to view the site.
+4. Open [http://localhost:3000](http://localhost:3000) to view the site.
