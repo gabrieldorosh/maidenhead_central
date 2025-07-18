@@ -99,3 +99,4 @@ Use services like cron-job.org or EasyCron:
 ```
 
 Each event in the feed will be upserted as a reservation for the selected listing.
+=======
