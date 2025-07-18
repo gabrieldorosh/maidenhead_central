@@ -16,12 +16,13 @@ export async function GET(request: Request) {
     }
 
     try {
-        // Call the sync-all endpoint
+        // Call the sync-all endpoint with authentication
         const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000';
         const syncResponse = await fetch(`${baseUrl}/api/calendar/sync-all`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${cronToken}`
             },
         });
 

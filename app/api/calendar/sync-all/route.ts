@@ -4,6 +4,22 @@ import calendarSync from '@/app/libs/calendarSync';
 
 export async function POST(request: Request) {
     try {
+        // Check for authentication token
+        const authHeader = request.headers.get('authorization');
+        const cronToken = process.env.CRON_SECRET_TOKEN;
+        
+        // Support both header and query parameter authentication
+        const { searchParams } = new URL(request.url);
+        const queryToken = searchParams.get('token');
+        
+        const providedToken = authHeader?.replace('Bearer ', '') || queryToken;
+        
+        if (!cronToken || providedToken !== cronToken) {
+            return NextResponse.json({ 
+                error: 'Unauthorized - Invalid or missing authentication token' 
+            }, { status: 401 });
+        }
+
         // Get all listings that have an ICS URL configured
         const listingsWithIcs = await prisma.listing.findMany({
             where: {
