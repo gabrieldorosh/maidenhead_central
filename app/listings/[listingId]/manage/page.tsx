@@ -48,10 +48,7 @@ const ListingManagePage = async ({ params }: { params: IParams }) => {
     return (
         <ClientOnly>
             <ListingManageClient 
-                listing={{
-                    ...listing,
-                    lastIcsSyncAt: listing.lastIcsSyncAt ? listing.lastIcsSyncAt.toISOString() : null
-                }}
+                listing={listing}
                 currentUser={currentUser}
             />
         </ClientOnly>

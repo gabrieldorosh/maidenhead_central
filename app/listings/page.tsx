@@ -36,16 +36,10 @@ const ListingsPage = async () => {
         )
     }
 
-    // Convert lastIcsSyncAt from Date | null to string | null for SafeListing compatibility
-    const safeListings = listings.map(listing => ({
-        ...listing,
-        lastIcsSyncAt: listing.lastIcsSyncAt ? listing.lastIcsSyncAt.toISOString() : null,
-    }));
-
     return (
         <ClientOnly>
             <ListingsClient
-                listings={safeListings}
+                listings={listings}
                 currentUser={currentUser}
             />
         </ClientOnly>
