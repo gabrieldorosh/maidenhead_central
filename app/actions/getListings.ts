@@ -89,6 +89,7 @@ export default async function getListings(
     const safeListings = listings.map((listing) => ({
       ...listing,
       createdAt: listing.createdAt.toISOString(),
+      lastIcsSyncAt: listing.lastIcsSyncAt?.toISOString() || null,
     }));
 
     return safeListings;
