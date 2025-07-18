@@ -42,7 +42,11 @@ export default async function calendarSync(options: CalendarSyncOptions) {
 
         let createdCount = 0;
         let updatedCount = 0;
+        let deletedCount = 0;
 
+        // Collect all valid events first
+        const validEvents = [];
+        
         for (const event of Object.values(parsed)) {
             const eventObj = event as any; // Type assertion for ical events
             if (eventObj.type !== 'VEVENT') continue;
@@ -61,43 +65,146 @@ export default async function calendarSync(options: CalendarSyncOptions) {
             thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
             if (endDate < thirtyDaysAgo) continue;
 
-            // Look for existing reservation with same dates and listing ID
-            const existingReservation = await prisma.reservation.findFirst({
+            validEvents.push({ startDate, endDate });
+        }
+
+        // Early return if no valid events
+        if (validEvents.length === 0) {
+            // If no events in ICS, clean up all existing calendar-synced reservations
+            const existingCalendarReservations = await prisma.reservation.findMany({
                 where: {
                     listingId,
-                    startDate,
-                    endDate,
-                },
+                    // Only delete reservations that were created by calendar sync (totalPrice = 0)
+                    totalPrice: 0,
+                    // Only future reservations to avoid deleting historical data
+                    startDate: {
+                        gte: new Date()
+                    }
+                }
             });
 
-            if (existingReservation) {
-                await prisma.reservation.update({
-                    where: { id: existingReservation.id },
-                    data: {
-                        startDate,
-                        endDate,
-                    },
+            if (existingCalendarReservations.length > 0) {
+                await prisma.reservation.deleteMany({
+                    where: {
+                        id: {
+                            in: existingCalendarReservations.map(r => r.id)
+                        }
+                    }
                 });
+                deletedCount = existingCalendarReservations.length;
+            }
+
+            return {
+                success: true,
+                created: 0,
+                updated: 0,
+                deleted: deletedCount,
+                message: deletedCount > 0 ? 
+                    `Cleaned up ${deletedCount} cancelled reservations` : 
+                    'No valid events found to sync'
+            };
+        }
+
+        // Batch check for existing reservations (calendar-synced only)
+        const existingReservations = await prisma.reservation.findMany({
+            where: {
+                listingId,
+                // Only get calendar-synced reservations (totalPrice = 0)
+                totalPrice: 0,
+                // Only future reservations to avoid deleting historical data
+                startDate: {
+                    gte: new Date()
+                }
+            },
+            select: {
+                id: true,
+                startDate: true,
+                endDate: true
+            }
+        });
+
+        // Create maps for quick lookup
+        const existingMap = new Map();
+        const allExistingKeys = new Set();
+        
+        existingReservations.forEach(res => {
+            const key = `${res.startDate.toISOString()}-${res.endDate.toISOString()}`;
+            existingMap.set(key, res);
+            allExistingKeys.add(key);
+        });
+
+        // Prepare batch operations
+        const createData = [];
+        const updatePromises = [];
+        const validEventKeys = new Set();
+
+        for (const event of validEvents) {
+            const key = `${event.startDate.toISOString()}-${event.endDate.toISOString()}`;
+            validEventKeys.add(key);
+            const existing = existingMap.get(key);
+
+            if (existing) {
+                // Add to update batch
+                updatePromises.push(
+                    prisma.reservation.update({
+                        where: { id: existing.id },
+                        data: {
+                            startDate: event.startDate,
+                            endDate: event.endDate,
+                        },
+                    })
+                );
                 updatedCount++;
             } else {
-                await prisma.reservation.create({
-                    data: {
-                        listingId,
-                        userId: listing.userId,
-                        startDate,
-                        endDate,
-                        totalPrice: 0,
-                    }
+                // Add to create batch
+                createData.push({
+                    listingId,
+                    userId: listing.userId,
+                    startDate: event.startDate,
+                    endDate: event.endDate,
+                    totalPrice: 0,
                 });
                 createdCount++;
             }
+        }
+
+        // Find reservations that exist in DB but not in ICS (cancelled bookings)
+        const keysToDelete = Array.from(allExistingKeys).filter(key => !validEventKeys.has(key));
+        const reservationsToDelete = keysToDelete.map(key => existingMap.get(key)).filter(Boolean);
+        
+        if (reservationsToDelete.length > 0) {
+            const deletePromise = prisma.reservation.deleteMany({
+                where: {
+                    id: {
+                        in: reservationsToDelete.map(r => r.id)
+                    }
+                }
+            });
+            updatePromises.push(deletePromise);
+            deletedCount = reservationsToDelete.length;
+        }
+
+        // Execute batch operations
+        const promises = [];
+        
+        if (createData.length > 0) {
+            promises.push(prisma.reservation.createMany({ data: createData }));
+        }
+        
+        if (updatePromises.length > 0) {
+            promises.push(...updatePromises);
+        }
+
+        if (promises.length > 0) {
+            await Promise.all(promises);
         }
 
         return {
             success: true,
             created: createdCount,
             updated: updatedCount,
-            message: `Synced ${createdCount} new and ${updatedCount} updated reservations`
+            deleted: deletedCount,
+            message: `Synced ${createdCount} new, ${updatedCount} updated, and ${deletedCount} deleted reservations`
         };
     } catch (error: any) {
         console.error(`Calendar sync failed for listing ${listingId}:`, error);
