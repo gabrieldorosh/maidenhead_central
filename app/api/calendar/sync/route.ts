@@ -13,7 +13,7 @@ export async function POST(request: Request) {
         }
 
         const body = await request.json();
-        const { listingId, icsUrl } = body;
+        const { listingId, icsUrl, forceResync = false } = body;
 
         if (!listingId || !icsUrl) {
             return NextResponse.json({ error: 'Missing listingId or icsUrl' }, { status: 400 });
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
             }, { status: 403 });
         }
 
-        await calendarSync({ listingId, icsUrl });
+        const result = await calendarSync({ listingId, icsUrl, forceResync });
         
         // Update the last sync timestamp
         await prisma.listing.update({
@@ -45,7 +45,8 @@ export async function POST(request: Request) {
         
         return NextResponse.json({ 
             status: 'synced',
-            message: `Calendar synced successfully for "${listing.title}"`
+            message: `Calendar synced successfully for "${listing.title}"`,
+            result
         });
     } catch (error: any) {
         console.error('Calendar sync error:', error);
