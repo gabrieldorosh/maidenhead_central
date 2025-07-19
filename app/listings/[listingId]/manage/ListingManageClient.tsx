@@ -258,7 +258,7 @@ const ListingManageClient: React.FC<ListingManageClientProps> = ({
                                     </div>
                                 </div>
 
-                                {/* save button */}
+                                {/* Save button */}
                                 <Button
                                     disabled={!hasChanges || isLoading}
                                     label={isLoading ? "Saving..." : "Save Changes"}
