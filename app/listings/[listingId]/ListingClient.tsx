@@ -48,9 +48,10 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 end: new Date(reservation.endDate),
             });
 
-            // Remove the checkout date (end date) as it should be available for next booking
-            // This allows guests to check in on the same day another guest checks out
-            const occupiedDates = range.slice(0, -1);
+            // Only disable dates that are truly occupied (between check-in and check-out)
+            // Check-in dates can serve as check-out dates for previous bookings
+            // Check-out dates can serve as check-in dates for next bookings
+            const occupiedDates = range.slice(1, -1); // Remove both first and last dates
             dates = [...dates, ...occupiedDates];
         });
 
