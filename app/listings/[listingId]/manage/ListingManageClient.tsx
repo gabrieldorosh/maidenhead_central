@@ -266,7 +266,7 @@ const ListingManageClient: React.FC<ListingManageClientProps> = ({
                                 />
                             </form>
 
-                            {/* uneditable fields */}
+                            {/* Uneditable Fields */}
                             <div className="pt-4 border-t border-gray-200 mt-6">
                                 <div className="space-y-2 text-sm text-gray-600">
                                     <p><span className="font-medium">Created:</span> {new Date(listing.createdAt).toLocaleDateString()}</p>
