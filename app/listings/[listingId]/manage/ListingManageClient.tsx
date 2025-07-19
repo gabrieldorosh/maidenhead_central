@@ -145,7 +145,7 @@ const ListingManageClient: React.FC<ListingManageClientProps> = ({
                             <h3 className="text-lg font-semibold mb-4">Listing Settings</h3>
                             
                             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                                {/* editable Fields */}
+                                {/* Editable fields */}
                                 <div className="space-y-4">
                                     <div className="grid grid-cols-3 gap-4 items-center">
                                         <label className="text-sm font-medium text-gray-700">Category:</label>
