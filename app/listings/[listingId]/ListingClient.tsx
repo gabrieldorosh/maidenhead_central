@@ -48,7 +48,11 @@ const ListingClient: React.FC<ListingClientProps> = ({
                 end: new Date(reservation.endDate),
             });
 
-            dates = [...dates, ...range];
+            // Only disable dates that are truly occupied (between check-in and check-out)
+            // Check-in dates can serve as check-out dates for previous bookings
+            // Check-out dates can serve as check-in dates for next bookings
+            const occupiedDates = range.slice(1, -1); // Remove both first and last dates
+            dates = [...dates, ...occupiedDates];
         });
 
         return dates;
@@ -140,6 +144,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                                 onSubmit={onCreateReservation}
                                 disabled={isLoading}
                                 disabledDates={disabledDates}
+                                minStay={listing.minStay || 2} // default min 2 nights
                             />
                         </div>
                     </div>
