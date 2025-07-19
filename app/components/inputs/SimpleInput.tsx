@@ -75,7 +75,7 @@ const SimpleInput: React.FC<SimpleInputProps> = ({
         option.label.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // resset the highlighted index when options change
+    // reset the highlighted index when options change
     useEffect(() => {
         setHighlightedIndex(-1);
     }, [filteredOptions.length]);
