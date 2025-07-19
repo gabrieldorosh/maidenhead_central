@@ -144,6 +144,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
                                 onSubmit={onCreateReservation}
                                 disabled={isLoading}
                                 disabledDates={disabledDates}
+                                minStay={listing.minStay || 2} // default min 2 nights
                             />
                         </div>
                     </div>
