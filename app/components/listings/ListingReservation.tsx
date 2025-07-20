@@ -50,22 +50,20 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
                 onChange={(value) => onChangeDate(value.selection)}
             />
             <hr />
-            
-            {/* Date selection validation */}
-            {(dateRange.startDate && dateRange.endDate && selectedNights === 0) && (
-                <div className="px-4 py-2">
-                    <div className="text-center">
+
+            <div className="h-16 flex items-center justify-center">
+                {/* Date selection validation */}
+                {(dateRange.startDate && dateRange.endDate && selectedNights === 0) && (
+                    <div className="px-4 text-center">
                         <p className="text-xs text-gray-500">
                             Please select a check-out date to see the total price
                         </p>
                     </div>
-                </div>
-            )}
-            
-            {/* Minimum stay validation */}
-            {hasSelectedDates && !meetsMinStay && (
-                <div className="px-4 py-2">
-                    <div className="text-center">
+                )}
+                
+                {/* Minimum stay validation */}
+                {hasSelectedDates && !meetsMinStay && (
+                    <div className="px-4 text-center">
                         <p className="text-xs text-gray-500 mb-1">
                             Minimum <span className='font-bold'>{minStay} {minStay === 1 ? 'night' : 'nights'}</span> required
                         </p>
@@ -73,26 +71,28 @@ const ListingReservation: React.FC<ListingReservationProps> = ({
                             Email host with your requested dates for shorter stays
                         </p>
                     </div>
-                </div>
-            )}
+                )}
+
+                {/* Total price */}
+                {hasSelectedDates && hasValidSelection && (
+                    <div className='px-4 w-full flex flex-row items-center justify-between font-semibold text-lg'>
+                        <div>
+                            Total
+                        </div>
+                        <div>
+                            £ {totalPrice}
+                        </div>
+                    </div>
+                )}
+            </div>
             
-            <div className='p-4'>
+            <div className='px-4 pb-4'>
                 <Button
-                    disabled={disabled || !hasValidSelection}
+                    disabled={disabled || !hasSelectedDates}
                     label={hasSelectedDates && !meetsMinStay ? 'Contact Host for Booking' : 'Reserve'}
                     onClick={onSubmit}
                 />
             </div>
-            {hasSelectedDates && hasValidSelection && (
-                <div className='p-4 flex flex-row items-center justify-between font-semibold text-lg'>
-                    <div>
-                        Total
-                    </div>
-                    <div>
-                        £ {totalPrice}
-                    </div>
-                </div>
-            )}
         </div>
     )
 }
