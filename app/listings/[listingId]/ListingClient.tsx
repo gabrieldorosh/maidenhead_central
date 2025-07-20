@@ -7,12 +7,11 @@ import { categories } from "@/app/components/navbar/Categories";
 import Container from "@/app/components/Container";
 import ListingHead from "@/app/components/listings/ListingHead";
 import ListingInfo from "@/app/components/listings/ListingInfo";
-import useLogInModal from "@/app/hooks/useLogInModal";
+import useBookingRequestModal from "@/app/hooks/useBookingRequestModal";
 import { useRouter } from "next/navigation";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
-import axios from "axios";
-import toast from "react-hot-toast";
 import ListingReservation from "@/app/components/listings/ListingReservation";
+import BookingRequestModal from "@/app/components/modals/BookingRequestModal";
 import { Range } from "react-date-range";
 
 const initialDateRange = {
@@ -35,7 +34,7 @@ const ListingClient: React.FC<ListingClientProps> = ({
     currentUser,
 }) => {
 
-    const logInModal = useLogInModal();
+    const bookingRequestModal = useBookingRequestModal();
     const router = useRouter();
 
     // Check for dates that are already reserved
@@ -63,35 +62,12 @@ const ListingClient: React.FC<ListingClientProps> = ({
     const [ totalPrice, setTotalPrice ] = useState(listing.price);
     const [ dateRange, setDateRange ] = useState<Range>(initialDateRange);
 
-    // Create a new reservation
+    // Open booking request modal
     const onCreateReservation = useCallback(() => {
-        // Check if user is logged in
-        if (!currentUser) {
-            return logInModal.onOpen();
-        }
+        bookingRequestModal.onOpen();
+    }, [bookingRequestModal]);
 
-        setIsLoading(true);
-
-        axios.post('/api/reservations', {
-            totalPrice,
-            startDate: dateRange.startDate,
-            endDate: dateRange.endDate,
-            listingId: listing?.id,
-        })
-        .then(() => {
-            toast.success('Successfully booked the listing!');
-            setDateRange(initialDateRange);
-            router.push('/trips');
-        })
-        .catch((error) => {
-            toast.error('Failed to book the listing');
-            console.error(error);
-        }).finally(() => {
-            setIsLoading(false);
-        });
-    }, [totalPrice, dateRange, listing?.id, currentUser, logInModal, router ]);
-
-    // Calculate the total price
+    // Calculate total price
     useEffect(() => {
         if (dateRange.startDate && dateRange.endDate) {
             const dayCount = differenceInCalendarDays(dateRange.endDate, dateRange.startDate);
@@ -150,6 +126,20 @@ const ListingClient: React.FC<ListingClientProps> = ({
                     </div>
                 </div>
             </div>
+            
+            <BookingRequestModal
+                isOpen={bookingRequestModal.isOpen}
+                onClose={bookingRequestModal.onClose}
+                listing={{
+                    id: listing.id,
+                    title: listing.title,
+                    price: listing.price,
+                    guestCount: listing.guestCount,
+                    minStay: listing.minStay
+                }}
+                dateRange={dateRange}
+                totalPrice={totalPrice}
+            />
         </Container>
     )
 }
