@@ -69,10 +69,13 @@ const Modal: React.FC<ModalProps> = ({
     return (
         <>
             <div
+                onClick={handleClose}
                 className="
-                    justify-center
-                    items-center
                     flex
+                    flex-col
+                    justify-start
+                    md:justify-center
+                    items-center
                     overflow-x-hidden
                     overflow-y-auto
                     fixed
@@ -81,20 +84,23 @@ const Modal: React.FC<ModalProps> = ({
                     outline-none
                     focus:outline-none
                     bg-neutral-800/70
+                    min-h-screen
                 "
             >
                 <div
+                    onClick={(e) => e.stopPropagation()}
                     className="
                         relative
                         w-full
                         md:w-4/6
                         lg:w-3/6
                         xl:w-2/5
-                        my-6
-                        mx-auto
+                        m-0
+                        md:m-6
                         h-full
-                        lg:h-auto
                         md:h-auto
+                        md:max-h-[90vh]
+                        md:min-h-0
                     "
                 >
                     {/* Content */}
@@ -102,7 +108,6 @@ const Modal: React.FC<ModalProps> = ({
                         className={`
                             translate
                             duration-300
-                            h-full
                             ${showModal ? 'translate-y-0' : 'translate-y-full'}
                             ${showModal ? 'opacity-100' : 'opacity-0'}
                         `}
@@ -111,10 +116,11 @@ const Modal: React.FC<ModalProps> = ({
                             className="
                                 translate
                                 h-full
-                                lg:h-auto
                                 md:h-auto
+                                md:max-h-[90vh]
                                 border-0
-                                rounded-lg
+                                rounded-none
+                                md:rounded-lg
                                 shadow-lg
                                 relative
                                 flex
@@ -123,6 +129,7 @@ const Modal: React.FC<ModalProps> = ({
                                 bg-white
                                 outline-none
                                 focus:outline-none
+                                overflow-hidden
                             "
                         >
                             {/* Header */}
@@ -155,7 +162,7 @@ const Modal: React.FC<ModalProps> = ({
                                 </div>
                             </header>
                             {/* Body */}
-                            <div className="relative p-6 flex-auto">
+                            <div className="relative p-6 flex-1 overflow-y-auto">
                                 {body}
                             </div>
                             {/* Footer */}

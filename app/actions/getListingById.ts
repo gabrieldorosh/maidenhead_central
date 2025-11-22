@@ -29,6 +29,7 @@ export default async function getListingById(
         return {
             ...listing,
             createdAt: listing.createdAt.toISOString(),
+            lastIcsSyncAt: listing.lastIcsSyncAt?.toISOString() || null,
             user: {
                 ...listing.user,
                 createdAt: listing.user.createdAt.toISOString(),

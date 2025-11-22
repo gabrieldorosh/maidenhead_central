@@ -11,9 +11,10 @@ export type SafeUser = Omit<
 
 export type SafeListing = Omit<
     Listing,
-    "createdAt"
+    "createdAt" | "lastIcsSyncAt"
 > & {
     createdAt: string;
+    lastIcsSyncAt?: string | null;
 }
 
 export type SafeReservation = Omit<

@@ -60,6 +60,9 @@ model Listing {
   locationValue String
   userId String @db.ObjectId
   price Int
+  icsUrl String?
+  lastIcsSyncAt DateTime?
+  minStay Int @default(2)
 
   // Relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)

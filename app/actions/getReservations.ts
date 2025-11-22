@@ -49,6 +49,7 @@ export default async function getReservations(
                 listing: {
                     ...reservation.listing,
                     createdAt: reservation.listing.createdAt.toISOString(),
+                    lastIcsSyncAt: reservation.listing.lastIcsSyncAt?.toISOString() || null,
                 }
             })
         );
